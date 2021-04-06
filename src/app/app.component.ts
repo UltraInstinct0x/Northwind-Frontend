@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'northwind';
+  Product = {productId:"1",productName:"Bardak", categoryId:"1", unitPrice:"5"};
 }
