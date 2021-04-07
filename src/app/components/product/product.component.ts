@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Product } from 'src/app/models/product';
+import { ProductResponseModel } from 'src/app/models/productResponseModel';
+import { ProductService } from 'src/app/services/product.service';
+
 
 @Component({
   selector: 'app-product',
@@ -7,15 +11,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductComponent implements OnInit {
 
-  product1 = {productId:1, productName: "İlk Ürün", categoryId:1,unitPrice:5 } 
-  product2 = {productId:2, productName: "İkinci Ürün", categoryId:2,unitPrice:35 } 
-  product3 = {productId:3, productName: "Son Ürün", categoryId:3,unitPrice:15 } 
-  products=[
-    this.product1,this.product2,this.product3
-  ]
-  constructor() { }
+  products:Product[]=[];
+  apiUrl:string="https://localhost:44384/api/products/getall";
+  dataLoaded: boolean = false;
+
+  constructor(private productService:ProductService) { }
 
   ngOnInit(): void {
+    this.getProducts();
   }
 
+  getProducts(){
+    this.productService.getProducts().subscribe(response =>{
+      this.products=response.data;
+      this.dataLoaded=true;
+    })
+    
+    console.log();
+  }
 }
