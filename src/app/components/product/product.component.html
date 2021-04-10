@@ -2,6 +2,12 @@
   <strong>Loading...</strong>
   <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
 </div>
+
+<div class="mb-3">
+  <label for="filterText" class="form-label">Ürün Arama</label>
+  <input type="text" [(ngModel)]="filterText" class="form-control" id="filterText" placeholder="Arama ifadesi giriniz">
+</div>
+<div *ngIf="filterText" class="alert alert-warning">{{filterText}} aradınız.</div>
 <table *ngIf="dataLoaded!=false" class="table table-hover">
   <thead>
     <tr>
@@ -9,16 +15,20 @@
       <th>Product Name</th>
       <th>Category</th>
       <th>Unit Price</th>
+      <th>Unit Price with VAT</th>
       <th>Units In Stock</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let product of products">
+    <tr *ngFor="let product of products | filterPipe:filterText">
       <td>{{ product.productId }}</td>
       <td>{{ product.productName }}</td>
       <td>{{ product.categoryId }}</td>
       <td>{{ product.unitPrice }}</td>
+      <td>{{ product.unitPrice | vatAdded:18 | currency}}</td>
       <td>{{ product.unitsInStock }}</td>
+      <td><button (click)="addToCart(product)" type="button" class="btn btn-dark">Sepete Ekle</button></td>
     </tr>
   </tbody>
 </table>
